@@ -159,6 +159,16 @@ npm run dev
 
 ---
 
+## What I Built
+
+| Artifact | Description |
+|---|---|
+| 15 product docs | Full product strategy covering vision, requirements, agent design, eval framework, metrics, roadmap, and GTM |
+| 10-page prototype | React + TypeScript prototype covering all platform surfaces from AI roleplay to analytics and ROI |
+| Standard portfolio docs | PORTFOLIO_AUDIT, PRODUCT_THESIS, WHAT_I_BUILT, OUTCOME_MODEL, AI_PRODUCT_JUDGMENT |
+
+---
+
 ## Disclaimer
 
 This project is an independent, conceptual portfolio artifact. All product concepts, strategies, architectures, and designs are original and exploratory. This project:
