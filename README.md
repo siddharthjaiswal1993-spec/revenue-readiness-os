@@ -1,6 +1,8 @@
 # Revenue Readiness OS
 
-> An AI-native platform that transforms how B2B revenue organizations build seller readiness, accelerate onboarding, coach at scale, and connect enablement activity to revenue outcomes.
+> Adaptive sales readiness platform — rep skill scoring, AI roleplay simulation, manager coaching queue, and deal-level readiness intelligence.
+
+**Status:** Concept + Prototype · Synthetic examples and mock data throughout
 
 ---
 
@@ -159,6 +161,18 @@ npm run dev
 
 ---
 
+## Build / Maintain / Improve / Kill
+
+**Build** — Real roleplay session scoring from audio or transcript and Salesforce/HubSpot integration for deal-level readiness signal. Without these, the readiness score is disconnected from actual pipeline outcomes.
+
+**Maintain** — The criteria-based scoring rubric (discovery quality, objection handling, value articulation, close readiness). Do not collapse it to a single holistic score — the individual dimensions are what make the coaching recommendation actionable.
+
+**Improve** — Manager coaching queue prioritisation. The current system weights by skill score alone. A production system incorporates deal urgency, pipeline size, and manager bandwidth to prioritise coaching actions by expected revenue impact.
+
+**Kill** — Content completion tracking as a readiness proxy. Finishing a module is not a skill signal. Any metric that measures activity rather than demonstrated capability should be removed from the readiness model.
+
+---
+
 ## What I Built
 
 | Artifact | Description |
@@ -177,3 +191,4 @@ This project is an independent, conceptual portfolio artifact. All product conce
 - Does not represent the actual product direction of any existing platform
 - Uses entirely fictional user names, team names, and data
 - Is published as an open portfolio project to demonstrate product and technical thinking
+- Uses entirely synthetic examples, mock data, and fictional user names, team names, and performance data
