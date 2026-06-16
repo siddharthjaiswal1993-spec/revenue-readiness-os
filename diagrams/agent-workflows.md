@@ -124,7 +124,8 @@ flowchart TD
     P --> Q[Send notification to manager]
     Q --> R[Log: actions generated, cost, time]
 
-    B --> B
+    K -->|Next manager| B
+    R -->|Next manager| B
 ```
 
 ---
