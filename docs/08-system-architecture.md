@@ -59,15 +59,12 @@ graph TB
     GW --> US & LS & CS & CNT & AN & NT & INT
     GW --> WS
     WS --> AO
-    Domain Services --> AO
-    Domain Services --> PG & CACHE
     AO --> RA & RPA & CRA & CA & SGA & DA & EA
     AO --> LLM
     AO --> VDB
     AN --> DW
     INT --> CRM & CALL
     US --> SSO
-    Domain Services --> EVT
     EVT --> AN & AO
     CS --> ES
     CNT --> ES & VDB

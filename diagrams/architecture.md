@@ -80,14 +80,12 @@ graph TB
     AN --> DW & PG
     INT --> CRM & CALL & LMS
 
-    Domain_Services --> KAFKA
     KAFKA --> AN
     KAFKA --> AO
 
     AO --> PM & CTX & VAL & COST
     AO --> RI & RPA & CRA & CA & SGA & DA & EA & PA
-
-    Agents --> LLM
+    AO --> LLM
     RI & CRA & SGA & EA --> PG
     CA --> VDB & ES
     RPA --> VDB
