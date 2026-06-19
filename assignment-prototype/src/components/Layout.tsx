@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { Bell, Braces, ChevronDown, Compass, Menu, Orbit, Play, Search, ShieldCheck, Sparkles, Wand2, X } from 'lucide-react'
+import { ArrowRight, Bell, Braces, ChevronDown, Compass, Menu, MousePointerClick, Orbit, Play, Search, ShieldCheck, Sparkles, Wand2, X } from 'lucide-react'
 import { useState } from 'react'
 
 const navItems = [
@@ -18,11 +18,20 @@ const routeMeta: Record<string, { eyebrow: string; title: string; progress: numb
   '/developer': { eyebrow: 'Open platform', title: 'Delivery anywhere', progress: 100 },
 }
 
+const nextSteps: Record<string, { eyebrow: string; label: string; detail: string; to: string }> = {
+  '/': { eyebrow: 'Start here', label: 'Begin seller workflow', detail: 'See the flagship use case', to: '/recommendations' },
+  '/recommendations': { eyebrow: 'Next step', label: 'Inspect the context', detail: 'See what shaped the ranking', to: '/context' },
+  '/context': { eyebrow: 'Next step', label: 'Review trust & control', detail: 'See how enterprise policy applies', to: '/governance' },
+  '/governance': { eyebrow: 'Next step', label: 'Open the platform', detail: 'See API, events, and MCP delivery', to: '/developer' },
+  '/developer': { eyebrow: 'Journey complete', label: 'Return to platform story', detail: 'Recap the value and strategy', to: '/' },
+}
+
 export default function Layout() {
   const location = useLocation()
   const navigate = useNavigate()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const meta = routeMeta[location.pathname] ?? routeMeta['/']
+  const nextStep = nextSteps[location.pathname] ?? nextSteps['/']
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f5f6f8]">
@@ -70,6 +79,16 @@ export default function Layout() {
           </div>
         </header>
         <main className="flex-1 overflow-y-auto"><Outlet /></main>
+        <div className="fixed bottom-5 right-5 lg:right-7 z-40 flex items-end gap-3">
+          <div className="hidden sm:block rounded-xl bg-white border border-violet-200 panel-shadow px-3 py-2 text-right">
+            <div className="text-[10px] uppercase tracking-[0.14em] font-bold text-violet-600">{nextStep.eyebrow}</div>
+            <div className="text-[11px] text-slate-500 mt-0.5">{nextStep.detail}</div>
+          </div>
+          <button onClick={() => navigate(nextStep.to)} className="guided-action relative min-w-[210px] rounded-xl bg-violet-600 hover:bg-violet-500 text-white px-4 py-3 text-left shadow-xl shadow-violet-900/25">
+            <span className="absolute -top-3 -left-3 w-7 h-7 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shadow-lg animate-bounce"><MousePointerClick size={14} /></span>
+            <span className="flex items-center justify-between gap-3 text-xs font-semibold"><span>{nextStep.label}</span><ArrowRight size={14} /></span>
+          </button>
+        </div>
       </div>
     </div>
   )
