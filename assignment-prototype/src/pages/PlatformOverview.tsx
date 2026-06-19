@@ -1,4 +1,4 @@
-import { ArrowRight, Braces, Check, ChevronRight, CircleDot, Database, FileText, Layers3, LockKeyhole, MousePointer2, Orbit, ShieldCheck, Sparkles, Target, Wand2, Zap } from 'lucide-react'
+import { ArrowRight, Braces, Check, ChevronRight, CircleDot, Database, FileText, Layers3, LockKeyhole, Orbit, ShieldCheck, Sparkles, Target, Wand2, Zap } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const journey = [
@@ -21,7 +21,7 @@ export default function PlatformOverview() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-300/20 bg-violet-300/10 text-xs text-violet-200"><Sparkles size={13} /> Rebuilding content recommendations as a platform</div>
           <h1 className="text-4xl lg:text-[54px] leading-[1.06] tracking-[-0.035em] font-semibold mt-6">The right content for this buyer, at this moment, on any surface.</h1>
           <p className="text-base lg:text-lg text-slate-300 leading-relaxed mt-5 max-w-2xl">Move from opportunity-field rules inside one CRM to a governed intelligence service that understands revenue context, explains every result, and serves customers, partners, and agents.</p>
-          <div className="flex flex-wrap gap-3 mt-8"><button onClick={() => navigate('/recommendations')} className="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-sm font-semibold flex items-center gap-2 shadow-lg shadow-violet-950/40"><MousePointer2 size={16} /> Start guided walkthrough <ArrowRight size={15} /></button><button onClick={() => document.getElementById('strategy')?.scrollIntoView({behavior:'smooth'})} className="px-5 py-3 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] text-sm font-medium">See the strategy</button></div>
+          <div className="flex flex-wrap gap-3 mt-8"><button onClick={() => document.getElementById('strategy')?.scrollIntoView({behavior:'smooth'})} className="px-5 py-3 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] text-sm font-medium flex items-center gap-2">Explore the strategy <ArrowRight size={14} /></button></div>
           <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8 text-xs text-slate-400">{['Content-first scope','Hybrid AI + rules','Enterprise controls by design'].map(x => <span key={x} className="flex items-center gap-1.5"><Check size={13} className="text-emerald-400" /> {x}</span>)}</div>
         </div>
 

@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { ArrowUpRight, Bookmark, Check, ChevronDown, HelpCircle, Clock3, Copy, FileText, MoreHorizontal, RefreshCw, Send, Share2, ShieldCheck, Sparkles, ThumbsDown, X } from 'lucide-react'
 import { contextSignals, opportunities, recommendations } from '../data/recommendationData'
 import { useNavigate } from 'react-router-dom'
-import JourneyFooter from '../components/JourneyFooter'
 
 const accentStyles: Record<string, { chip: string; icon: string; bar: string }> = {
   violet: { chip: 'bg-violet-50 text-violet-700 border-violet-100', icon: 'bg-violet-100 text-violet-700', bar: 'bg-violet-500' },
@@ -134,7 +133,6 @@ export default function RecommendationWorkspace() {
             ) : <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center"><Clock3 size={20} className="text-slate-300 mx-auto" /><p className="text-sm text-slate-500 mt-3">Select a recommendation to inspect its evidence and policy trace.</p></div>}
           </aside>
         </div>
-        <JourneyFooter completed="Seller value demonstrated" insight="The seller sees a small, approved set of content tied to live buyer context—with evidence, confidence, and feedback built into the workflow." previous={{label:'Platform story',to:'/'}} next={{label:'Inspect the context',to:'/context',description:'See how five sources become one resolved snapshot'}} />
       </div>
     </div>
   )

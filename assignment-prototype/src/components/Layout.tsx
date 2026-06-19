@@ -1,29 +1,21 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { ArrowRight, Bell, Braces, ChevronDown, Compass, Menu, MousePointerClick, Orbit, Play, Search, ShieldCheck, Sparkles, Wand2, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Braces, CheckCircle2, Compass, Menu, Orbit, ShieldCheck, Sparkles, Wand2, X } from 'lucide-react'
 import { useState } from 'react'
 
-const navItems = [
-  { to: '/', label: 'Platform story', caption: 'Vision & value', icon: Compass, step: '00' },
-  { to: '/recommendations', label: 'Seller experience', caption: 'Context → content', icon: Wand2, step: '01' },
-  { to: '/context', label: 'Context intelligence', caption: 'Signals & resolution', icon: Orbit, step: '02' },
-  { to: '/governance', label: 'Trust & control', caption: 'Policy & audit', icon: ShieldCheck, step: '03' },
-  { to: '/developer', label: 'Open delivery', caption: 'API, MCP & events', icon: Braces, step: '04' },
+const journey = [
+  { to: '/', label: 'Platform story', caption: 'Vision and strategic shift', icon: Compass, number: '00' },
+  { to: '/recommendations', label: 'Seller experience', caption: 'Context to useful content', icon: Wand2, number: '01' },
+  { to: '/context', label: 'Context intelligence', caption: 'Signals and resolution', icon: Orbit, number: '02' },
+  { to: '/governance', label: 'Trust and control', caption: 'Policy and auditability', icon: ShieldCheck, number: '03' },
+  { to: '/developer', label: 'Open delivery', caption: 'API, events and MCP', icon: Braces, number: '04' },
 ]
 
-const routeMeta: Record<string, { eyebrow: string; title: string; progress: number }> = {
-  '/': { eyebrow: 'Assignment narrative', title: 'Platform story', progress: 0 },
-  '/recommendations': { eyebrow: 'Seller workflow', title: 'Contextual recommendations', progress: 25 },
-  '/context': { eyebrow: 'Platform capability', title: 'Context intelligence', progress: 50 },
-  '/governance': { eyebrow: 'Enterprise foundation', title: 'Trust and control', progress: 75 },
-  '/developer': { eyebrow: 'Open platform', title: 'Delivery anywhere', progress: 100 },
-}
-
-const nextSteps: Record<string, { eyebrow: string; label: string; detail: string; to: string }> = {
-  '/': { eyebrow: 'Start here', label: 'Begin seller workflow', detail: 'See the flagship use case', to: '/recommendations' },
-  '/recommendations': { eyebrow: 'Next step', label: 'Inspect the context', detail: 'See what shaped the ranking', to: '/context' },
-  '/context': { eyebrow: 'Next step', label: 'Review trust & control', detail: 'See how enterprise policy applies', to: '/governance' },
-  '/governance': { eyebrow: 'Next step', label: 'Open the platform', detail: 'See API, events, and MCP delivery', to: '/developer' },
-  '/developer': { eyebrow: 'Journey complete', label: 'Return to platform story', detail: 'Recap the value and strategy', to: '/' },
+const routeMeta: Record<string, { section: string; title: string; progress: number; guide: string; previous?: string; next?: string; nextLabel: string }> = {
+  '/': { section: 'Assignment narrative', title: 'Platform story', progress: 0, guide: 'Start with the strategic shift, then enter the flagship seller workflow.', next: '/recommendations', nextLabel: 'Start walkthrough' },
+  '/recommendations': { section: 'Step 1 of 4 · Seller value', title: 'Contextual recommendations', progress: 25, guide: 'Show the outcome first: three approved assets, ranked and explained for one live opportunity.', previous: '/', next: '/context', nextLabel: 'Inspect context' },
+  '/context': { section: 'Step 2 of 4 · Intelligence', title: 'Context intelligence', progress: 50, guide: 'Trace the recommendation back to resolved, permission-safe revenue signals.', previous: '/recommendations', next: '/governance', nextLabel: 'Review controls' },
+  '/governance': { section: 'Step 3 of 4 · Trust', title: 'Enterprise control', progress: 75, guide: 'Demonstrate that deterministic rules remain for eligibility, permissions, policy and audit.', previous: '/context', next: '/developer', nextLabel: 'Open the platform' },
+  '/developer': { section: 'Step 4 of 4 · Reach', title: 'Open delivery', progress: 100, guide: 'Close the loop: one governed contract serves CRM, partners, embedded apps and agents.', previous: '/governance', next: '/', nextLabel: 'Finish and recap' },
 }
 
 export default function Layout() {
@@ -31,65 +23,39 @@ export default function Layout() {
   const navigate = useNavigate()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const meta = routeMeta[location.pathname] ?? routeMeta['/']
-  const nextStep = nextSteps[location.pathname] ?? nextSteps['/']
 
-  return (
-    <div className="flex h-screen overflow-hidden bg-[#f5f6f8]">
-      {mobileNavOpen && <button className="fixed inset-0 bg-slate-950/40 z-40 lg:hidden" onClick={() => setMobileNavOpen(false)} aria-label="Close navigation" />}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-[272px] flex-shrink-0 flex flex-col bg-[#0d1529] transition-transform lg:translate-x-0 ${mobileNavOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="px-5 py-5 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-950/40"><Sparkles size={17} className="text-white" /></div>
-            <div><div className="text-white font-semibold text-sm">Mindtickle</div><div className="text-violet-300 text-[11px] mt-0.5">Context Intelligence</div></div>
-          </div>
-          <button className="lg:hidden text-slate-400" onClick={() => setMobileNavOpen(false)}><X size={18} /></button>
-        </div>
+  return <div className="flex h-screen overflow-hidden bg-[#f5f6f8] text-slate-900">
+    {mobileNavOpen && <button aria-label="Close navigation" onClick={() => setMobileNavOpen(false)} className="fixed inset-0 z-40 bg-slate-950/40 lg:hidden" />}
 
-        <div className="px-4 pt-4">
-          <div className="rounded-xl border border-violet-400/20 bg-violet-400/10 px-3 py-2.5">
-            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-violet-300">Interactive assignment</div>
-            <div className="text-[11px] text-slate-400 mt-1">Follow the numbered journey for the panel walkthrough.</div>
-          </div>
-        </div>
-
-        <nav className="flex-1 overflow-y-auto py-4">
-          <div className="px-4 pb-2 text-[10px] font-semibold tracking-[0.16em] uppercase text-slate-500">Value journey</div>
-          {navItems.map(({ to, label, caption, icon: Icon, step }) => (
-            <NavLink key={to} to={to} end={to === '/'} onClick={() => setMobileNavOpen(false)} className={({ isActive }) => `group flex items-center gap-3 px-3 py-3 mx-2 rounded-xl transition-all ${isActive ? 'bg-violet-600 text-white shadow-lg shadow-violet-950/30' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'}`}>
-              {({ isActive }) => <><div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15' : 'bg-white/[0.05] group-hover:bg-white/10'}`}><Icon size={16} /></div><div className="flex-1 min-w-0"><div className="text-xs font-semibold">{label}</div><div className={`text-[10px] mt-0.5 ${isActive ? 'text-violet-100' : 'text-slate-500'}`}>{caption}</div></div><span className={`text-[10px] font-mono ${isActive ? 'text-violet-100' : 'text-slate-600'}`}>{step}</span></>}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="p-4 border-t border-white/10">
-          <div className="flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-white text-xs font-bold">SJ</div><div className="min-w-0"><div className="text-white text-xs font-medium truncate">Siddharth Jaiswal</div><div className="text-slate-500 text-[10px] truncate">GPM platform assignment</div></div></div>
-        </div>
-      </aside>
-
-      <div className="flex-1 min-w-0 flex flex-col">
-        <header className="h-[68px] shrink-0 bg-white/90 backdrop-blur border-b border-slate-200 flex items-center px-4 lg:px-6 z-30">
-          <button className="lg:hidden mr-3 p-2 rounded-lg border border-slate-200" onClick={() => setMobileNavOpen(true)}><Menu size={17} /></button>
-          <div className="min-w-0"><div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-violet-600">{meta.eyebrow}</div><div className="text-sm font-semibold text-slate-900 mt-0.5 truncate">{meta.title}</div></div>
-          <div className="hidden md:flex items-center gap-2 ml-8 flex-1 max-w-md"><div className="h-1.5 flex-1 bg-slate-100 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-violet-500 to-blue-500 rounded-full transition-all" style={{ width: `${Math.max(meta.progress, 4)}%` }} /></div><span className="text-[10px] text-slate-400 w-8">{meta.progress}%</span></div>
-          <div className="flex items-center gap-2 ml-auto">
-            {location.pathname !== '/' && <button onClick={() => navigate('/')} className="hidden sm:flex px-3 py-2 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 items-center gap-1.5 hover:bg-slate-50"><Play size={12} /> Restart story</button>}
-            <div className="relative w-64 hidden xl:block"><Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" /><input className="w-full rounded-lg bg-slate-100 border border-transparent py-2 pl-9 pr-3 text-xs outline-none focus:bg-white focus:border-violet-300" placeholder="Search this prototype..." /></div>
-            <button className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50"><Bell size={15} /></button>
-            <button className="flex items-center gap-1.5 pl-1"><div className="w-8 h-8 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold">SJ</div><ChevronDown size={13} className="text-slate-400" /></button>
-          </div>
-        </header>
-        <main className="flex-1 overflow-y-auto"><Outlet /></main>
-        <div className="fixed bottom-5 right-5 lg:right-7 z-40 flex items-end gap-3">
-          <div className="hidden sm:block rounded-xl bg-white border border-violet-200 panel-shadow px-3 py-2 text-right">
-            <div className="text-[10px] uppercase tracking-[0.14em] font-bold text-violet-600">{nextStep.eyebrow}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">{nextStep.detail}</div>
-          </div>
-          <button onClick={() => navigate(nextStep.to)} className="guided-action relative min-w-[210px] rounded-xl bg-violet-600 hover:bg-violet-500 text-white px-4 py-3 text-left shadow-xl shadow-violet-900/25">
-            <span className="absolute -top-3 -left-3 w-7 h-7 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center shadow-lg animate-bounce"><MousePointerClick size={14} /></span>
-            <span className="flex items-center justify-between gap-3 text-xs font-semibold"><span>{nextStep.label}</span><ArrowRight size={14} /></span>
-          </button>
-        </div>
+    <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-[252px] shrink-0 bg-[#0d1529] text-white flex flex-col transition-transform lg:translate-x-0 ${mobileNavOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className="h-[68px] px-5 border-b border-white/10 flex items-center justify-between">
+        <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-950/40"><Sparkles size={17} /></div><div><div className="text-sm font-semibold">Mindtickle</div><div className="text-[11px] text-violet-300 mt-0.5">Context Intelligence</div></div></div>
+        <button className="lg:hidden text-slate-400" onClick={() => setMobileNavOpen(false)}><X size={18} /></button>
       </div>
+
+      <div className="px-4 pt-5 pb-2"><div className="text-[10px] uppercase tracking-[0.16em] font-semibold text-slate-500">Guided walkthrough</div></div>
+      <nav className="flex-1 overflow-y-auto px-2 py-1">
+        {journey.map(({ to, label, caption, icon: Icon, number }) => <NavLink key={to} to={to} end={to === '/'} onClick={() => setMobileNavOpen(false)} className={({isActive}) => `group flex items-center gap-3 px-3 py-3 rounded-xl mb-1 transition-colors ${isActive ? 'bg-violet-600 text-white' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'}`}>
+          {({isActive}) => <><div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-white/15' : 'bg-white/[0.05]'}`}><Icon size={16} /></div><div className="flex-1 min-w-0"><div className="text-xs font-semibold">{label}</div><div className={`text-[10px] mt-0.5 truncate ${isActive ? 'text-violet-100' : 'text-slate-500'}`}>{caption}</div></div><span className={`text-[10px] font-mono ${isActive ? 'text-violet-200' : 'text-slate-600'}`}>{number}</span></>}
+        </NavLink>)}
+      </nav>
+
+      <div className="p-4 border-t border-white/10"><div className="rounded-xl bg-white/[0.05] border border-white/[0.08] p-3"><div className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Prototype status</div><div className="flex items-center gap-2 mt-2 text-[11px] text-emerald-300"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Interactive demo ready</div></div><div className="flex items-center gap-3 mt-4"><div className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center text-xs font-bold">SJ</div><div><div className="text-xs font-medium">Siddharth Jaiswal</div><div className="text-[10px] text-slate-500 mt-0.5">GPM platform assignment</div></div></div></div>
+    </aside>
+
+    <div className="flex-1 min-w-0 flex flex-col">
+      <header className="h-[68px] shrink-0 bg-white border-b border-slate-200 px-4 lg:px-6 flex items-center">
+        <button className="lg:hidden mr-3 p-2 rounded-lg border border-slate-200" onClick={() => setMobileNavOpen(true)}><Menu size={17} /></button>
+        <div className="min-w-0"><div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-violet-600">{meta.section}</div><div className="text-sm font-semibold mt-0.5 truncate">{meta.title}</div></div>
+        <div className="hidden md:flex items-center gap-3 ml-auto w-[340px]"><div className="h-1.5 flex-1 rounded-full bg-slate-100 overflow-hidden"><div className="h-full rounded-full bg-violet-600 transition-all" style={{width:`${Math.max(meta.progress,3)}%`}} /></div><span className="text-[10px] font-medium text-slate-400 w-8">{meta.progress}%</span></div>
+      </header>
+
+      <div className="shrink-0 min-h-[62px] bg-white border-b border-slate-200 px-4 lg:px-6 py-2.5 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex items-center gap-2.5 min-w-0"><div className="w-8 h-8 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center shrink-0">{meta.progress === 100 ? <CheckCircle2 size={15} /> : <Sparkles size={14} />}</div><p className="text-xs text-slate-600 leading-relaxed truncate sm:whitespace-normal">{meta.guide}</p></div>
+        <div className="flex items-center gap-2 sm:ml-auto shrink-0">{meta.previous && <button onClick={() => navigate(meta.previous!)} className="px-3 py-2 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-1.5"><ArrowLeft size={13} /> Back</button>}<button onClick={() => navigate(meta.next!)} className="next-action px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold flex items-center gap-2 shadow-sm">{meta.nextLabel}<ArrowRight size={13} /></button></div>
+      </div>
+
+      <main className="flex-1 overflow-y-auto"><Outlet /></main>
     </div>
-  )
+  </div>
 }
