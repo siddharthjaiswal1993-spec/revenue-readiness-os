@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Activity, Building2, CheckCircle2, Clock3, Database, GitBranch, MessageSquareText, RefreshCw, Search, SlidersHorizontal, UserRound, Zap } from 'lucide-react'
 import { contextSignals } from '../data/recommendationData'
+import JourneyFooter from '../components/JourneyFooter'
 
 const sources = [
   { name: 'Salesforce', type: 'CRM', status: 'Healthy', records: '14.2K', freshness: '8 min', icon: Database, color: 'bg-blue-100 text-blue-700' },
@@ -28,5 +29,6 @@ export default function ContextExplorer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5"><div className="bg-white border border-slate-200 rounded-2xl panel-shadow p-5"><div className="flex items-center justify-between"><h3 className="text-sm font-semibold text-slate-900">Signals used in ranking</h3><Zap size={15} className="text-amber-500" /></div><div className="mt-4 space-y-3">{contextSignals.slice(0,4).map(signal => <div key={signal.type}><div className="flex justify-between text-xs"><span className="text-slate-600">{signal.type}</span><span className="font-medium text-slate-800">{signal.strength}%</span></div><div className="h-1.5 bg-slate-100 rounded-full mt-1.5"><div className="h-full bg-violet-500 rounded-full" style={{width:`${signal.strength}%`}} /></div></div>)}</div></div><div className="bg-white border border-slate-200 rounded-2xl panel-shadow p-5"><h3 className="text-sm font-semibold text-slate-900">Source diagnostics</h3><div className="mt-4 space-y-3"><div className="flex items-center justify-between p-3 bg-emerald-50 rounded-xl"><span className="text-xs text-emerald-800">Entity resolution</span><span className="text-xs font-semibold text-emerald-700">98.6%</span></div><div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl"><span className="text-xs text-slate-600">Oldest active signal</span><span className="text-xs font-semibold text-slate-800 flex items-center gap-1"><Clock3 size={11}/> 4 days</span></div><div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl"><span className="text-xs text-slate-600">Excluded sensitive fields</span><span className="text-xs font-semibold text-slate-800">7</span></div></div></div></div>
       </div>
     </div>
+    <JourneyFooter completed="Context intelligence made inspectable" insight="The platform resolves heterogeneous revenue signals into a permission-safe, freshness-aware snapshot that every recommendation surface can reuse." previous={{label:'Seller experience',to:'/recommendations'}} next={{label:'Apply enterprise control',to:'/governance',description:'Inspect policy, eligibility, and audit decisions'}} />
   </div>
 }

@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { ArrowUpRight, Bookmark, Check, ChevronDown, HelpCircle, Clock3, Copy, FileText, MoreHorizontal, RefreshCw, Send, Share2, ShieldCheck, Sparkles, ThumbsDown, X } from 'lucide-react'
 import { contextSignals, opportunities, recommendations } from '../data/recommendationData'
+import { useNavigate } from 'react-router-dom'
+import JourneyFooter from '../components/JourneyFooter'
 
 const accentStyles: Record<string, { chip: string; icon: string; bar: string }> = {
   violet: { chip: 'bg-violet-50 text-violet-700 border-violet-100', icon: 'bg-violet-100 text-violet-700', bar: 'bg-violet-500' },
@@ -9,6 +11,7 @@ const accentStyles: Record<string, { chip: string; icon: string; bar: string }> 
 }
 
 export default function RecommendationWorkspace() {
+  const navigate = useNavigate()
   const [selectedOpportunity, setSelectedOpportunity] = useState(opportunities[0])
   const [detailId, setDetailId] = useState<string | null>('rec-1')
   const [usedIds, setUsedIds] = useState<string[]>([])
@@ -66,12 +69,12 @@ export default function RecommendationWorkspace() {
                   </button>
                 ))}
               </div>
-              <button className="w-full px-4 py-3 border-t border-slate-100 text-xs font-medium text-violet-700 hover:bg-violet-50">Explore full context graph →</button>
+              <button onClick={() => navigate('/context')} className="w-full px-4 py-3 border-t border-slate-100 text-xs font-medium text-violet-700 hover:bg-violet-50">Explore full context graph →</button>
             </div>
             <div className="rounded-2xl bg-slate-900 text-white p-4 panel-shadow">
               <div className="flex items-center gap-2 text-xs font-semibold"><ShieldCheck size={14} className="text-emerald-400" /> Enterprise controls applied</div>
               <p className="text-[11px] text-slate-400 leading-relaxed mt-2">3 policies and seller permissions filtered 14 candidates before ranking.</p>
-              <button className="text-[11px] text-violet-300 mt-3">View policy trace</button>
+              <button onClick={() => navigate('/governance')} className="text-[11px] text-violet-300 mt-3">View policy trace →</button>
             </div>
           </aside>
 
@@ -131,6 +134,7 @@ export default function RecommendationWorkspace() {
             ) : <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center"><Clock3 size={20} className="text-slate-300 mx-auto" /><p className="text-sm text-slate-500 mt-3">Select a recommendation to inspect its evidence and policy trace.</p></div>}
           </aside>
         </div>
+        <JourneyFooter completed="Seller value demonstrated" insight="The seller sees a small, approved set of content tied to live buyer context—with evidence, confidence, and feedback built into the workflow." previous={{label:'Platform story',to:'/'}} next={{label:'Inspect the context',to:'/context',description:'See how five sources become one resolved snapshot'}} />
       </div>
     </div>
   )
